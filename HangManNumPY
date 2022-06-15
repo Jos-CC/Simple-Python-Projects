@@ -1,0 +1,45 @@
+#Here is a nice way of doing Hangman with numpy
+
+import numpy as np
+
+def hangman_play():
+
+    list_words = ['computer', 'television', 'laptop', 'phone', 'dracula']
+    random_word = np.array(list(np.random.choice(list_words)))
+    user_guessed_choices = np.full_like(random_word, "-")
+    chances = len(random_word) + 4 # Give a few more tries than there are letters.
+
+    while chances != 0:
+
+        # Check for victory condition *before* asking for a new letter guess.
+        if (user_guessed_choices == random_word).all():
+            print('You win!')
+            break
+
+        # Other cases.
+        user_input = input(f'Guess the word! Choose a letter, you have {chances} tries left. ').lower()
+
+        if user_input in random_word:
+            mask = random_word == user_input # Locations of the letter that was just guessed correctly.
+            user_guessed_choices[mask] = random_word[mask]
+            print(f'{user_input.upper()} is correct! Added to the word.')
+            print("".join(user_guessed_choices).upper())
+
+        elif user_input in user_guessed_choices:
+            print('Hey! You used that letter already!')
+
+        elif user_input not in random_word:
+            print("That's incorrect!")
+
+        elif chances == 0:
+            print('You ran out of chances! You lose!')
+
+        chances -= 1
+
+
+resp=''
+while resp.lower()!='n':
+    hangman_play()
+    print()
+    resp=input('Play again? Only choose y/n ')
+    print('Thanks for playing!')
