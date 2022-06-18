@@ -1,0 +1,31 @@
+import datetime as dt
+import time
+
+minute=0
+hours=0
+start_time=time.time()
+
+second_seperator="0"
+minute_seperator="0"
+
+while True:
+    time.sleep(1)
+    seconds=time.time()-start_time
+    if seconds>=10:
+        second_seperator=""
+        if int(seconds) == 60:
+            start_time = time.time()
+            seconds = 0
+            minute += 1
+    else:
+        second_seperator="0"
+    if minute>=10:
+        minute_seperator=""
+        if minute==60:
+            minute = 0
+            hours += 1
+    else:
+        minute_seperator="0"
+
+    print("0{0} : {1}{2} : {3}{4}".format(hours, minute_seperator, minute, second_seperator, int(seconds)))
+
